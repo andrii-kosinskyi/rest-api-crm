@@ -22,6 +22,9 @@ const (
 
 func (cv *ClientValidator) OnCreate(c *model.Client) []string {
 	var errMessages []string
+	var startTime time.Time
+	var endTime time.Time
+
 	if len(c.Name) < nameLength {
 		errMessages = append(errMessages, "Name is too short")
 	}
@@ -36,13 +39,15 @@ func (cv *ClientValidator) OnCreate(c *model.Client) []string {
 		errMessages = append(errMessages, "invalid working hours start format, should be HH:MM")
 	}
 
-	endTime, err := time.Parse(layout, c.WorkingHoursEnd)
+	endTime, err = time.Parse(layout, c.WorkingHoursEnd)
 	if err != nil {
 		errMessages = append(errMessages, "invalid working hours end format, should be HH:MM")
 	}
 
-	if !startTime.Before(endTime) {
-		errMessages = append(errMessages, "working hours start must be before working hours end")
+	if !startTime.IsZero() && !endTime.IsZero() {
+		if !startTime.Before(endTime) {
+			errMessages = append(errMessages, "working hours start must be before working hours end")
+		}
 	}
 
 	return errMessages
