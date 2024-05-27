@@ -1,0 +1,218 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server.",
+        "title": "Your API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:1323",
+    "basePath": "/",
+    "paths": {
+        "/clients": {
+            "get": {
+                "description": "Retrieve a list of all clients",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "clients"
+                ],
+                "summary": "Get all clients",
+                "responses": {
+                    "200": {
+                        "description": "list of clients",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Client"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new client with the provided information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "clients"
+                ],
+                "summary": "Create a new client",
+                "parameters": [
+                    {
+                        "description": "Client Information",
+                        "name": "client",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Client"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "client id: {id}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/clients/assign-lead": {
+            "post": {
+                "description": "Assign a new lead to a client with the provided information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "clients"
+                ],
+                "summary": "Assign a lead to a client",
+                "parameters": [
+                    {
+                        "description": "Lead Information",
+                        "name": "lead",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Lead"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "assigned client data",
+                        "schema": {
+                            "$ref": "#/definitions/model.Client"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/clients/{id}": {
+            "get": {
+                "description": "Retrieve a client by their ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "clients"
+                ],
+                "summary": "Get a client by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Client ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "client data",
+                        "schema": {
+                            "$ref": "#/definitions/model.Client"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.Client": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "lead_capacity": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "working_hours_end": {
+                    "type": "string"
+                },
+                "working_hours_start": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Lead": {
+            "type": "object",
+            "properties": {
+                "datetime": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

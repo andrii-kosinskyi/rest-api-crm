@@ -1,0 +1,143 @@
+basePath: /
+definitions:
+  model.Client:
+    properties:
+      id:
+        type: integer
+      lead_capacity:
+        type: integer
+      name:
+        type: string
+      priority:
+        type: integer
+      working_hours_end:
+        type: string
+      working_hours_start:
+        type: string
+    type: object
+  model.Lead:
+    properties:
+      datetime:
+        type: string
+    type: object
+host: localhost:1323
+info:
+  contact: {}
+  description: This is a sample server.
+  title: Your API
+  version: "1.0"
+paths:
+  /clients:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all clients
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: list of clients
+          schema:
+            items:
+              $ref: '#/definitions/model.Client'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Get all clients
+      tags:
+      - clients
+    post:
+      consumes:
+      - application/json
+      description: Create a new client with the provided information
+      parameters:
+      - description: Client Information
+        in: body
+        name: client
+        required: true
+        schema:
+          $ref: '#/definitions/model.Client'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 'client id: {id}'
+          schema:
+            type: string
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Create a new client
+      tags:
+      - clients
+  /clients/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a client by their ID
+      parameters:
+      - description: Client ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: client data
+          schema:
+            $ref: '#/definitions/model.Client'
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Get a client by ID
+      tags:
+      - clients
+  /clients/assign-lead:
+    post:
+      consumes:
+      - application/json
+      description: Assign a new lead to a client with the provided information
+      parameters:
+      - description: Lead Information
+        in: body
+        name: lead
+        required: true
+        schema:
+          $ref: '#/definitions/model.Lead'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: assigned client data
+          schema:
+            $ref: '#/definitions/model.Client'
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Assign a lead to a client
+      tags:
+      - clients
+swagger: "2.0"
